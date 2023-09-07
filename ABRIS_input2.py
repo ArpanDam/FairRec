@@ -307,95 +307,11 @@ for k in k_range:
     print("influenced member percentage =",dict_percentage_influenced_member)
     print("All member percentage =",dict_percentage_member)
     
-    print("The diffrence in percentage of influenced member and total member is ",find_difference_between_percentage(dict_percentage_influenced_member,dict_percentage_member))
+    print("L1 norm is ",find_difference_between_percentage(dict_percentage_influenced_member,dict_percentage_member))
     #break
 #[80674, 2775988, 2794624, 9078175, 10205905, 11900080, 37955902]
 
 print("Top 5 seeds are",seed)
 print(" Best 3 tags are ", best_tag)
-# Begining of 3rd block
 
-#graph=third_block.func1(seed, best_tag, graph)
-#tag=third_block.func2(seed,graph)
 
-#(graph)
-#print("Tags of seeds are ",tag)
-
-dict_for_target_users=set() #all nodes of the graph
-
-for inf in graph:
-    dict_for_target_users.add(inf)
-    for follower in graph[inf]:
-        dict_for_target_users.add(follower)
-        
-reverse_graph=generate_original_graph_for_input.generate_reverse_graph(graph)        
-final_list_of_RRS_set=third_block.genrating_many_sampled_graph(reverse_graph,50,dict_for_target_users)  
-
-top_influencial_member=third_block.find_top_influencial_member(final_list_of_RRS_set,100)   
-
-#print(top_influencial_member)
-
-# Find which is the least influencial seed
-
-print("Least inf user is ",third_block.least_influenced_seed(seed,top_influencial_member))
-# dict.keys()[-1] # last element of a dictionary
-
-#least_influenced_seed=third_block.least_influenced_seed(seed,top_influencial_member)
-dict_seed_rank=third_block.least_influenced_seed(seed,top_influencial_member)
-for  i in seed:
-    if i not in dict_seed_rank:
-        least_influenced_seed=i   
-
-print("least_influenced_seed = ",least_influenced_seed)        
-number_of_influenced,influenced_member=Evaluation2.number_of_influenced_member(seed,reverse_graph,best_tag)    
-Objective_f1=number_of_influenced
-dict2={} # key is number of influenced and value is the seeds
-
-#objective=number_of_influenced-disparity
-# Replacing least influenced with more objective function
-#top_seed=top_influencial_member[0]
-index=0
-while index < 2:
-    for top_seed in top_influencial_member:
-        new_seed=[]
-        for key in seed:
-            if key ==least_influenced_seed:
-                new_seed.append(top_seed)
-            else:
-                new_seed.append(key)
-                
-        number_of_influenced,influenced_member=Evaluation2.number_of_influenced_member(new_seed,reverse_graph_copy,best_tag)  
-        Objective_f2=number_of_influenced
-        #dict2.append(Objective_f2)
-        dict2[Objective_f2]=new_seed
-    dict2=dict(sorted(dict2.items()))
-    #print(dict2)
-    
-    best_objective_function = list(dict2.keys())[-1] # best objective function
-    print("Best objective fuction is ",best_objective_function)
-    seed=dict2[best_objective_function]
-    print("New seed is",seed)
-    
-    dict_seed_rank=third_block.least_influenced_seed(seed,top_influencial_member)
-    for  i in seed:
-        if i not in dict_seed_rank:
-            least_influenced_seed=i
-    
-    index=index+1
-'''dict_seed_rank=third_block.least_influenced_seed(seed,top_influencial_member)
-for  i in seed:
-    if i not in dict_seed_rank:
-        least_influenced_seed=i  
-#print("Objective_f2 is",Objective_f2)'''
-'''if(Objective_f2>Objective_f1):
-    print("New influenced node =",Objective_f2)
-    print("Seeds are",new_seed)'''
-        
-
-print(Objective_f1)    
-#print(dict2)    
-print("New influenced nodes are", number_of_influenced)
-print("Total influenced members are ",number_of_influenced)
-print("influenced_member are ",influenced_member)
-
-print("Disparity = ",third_block.disparity(influenced_member,reverse_graph))
