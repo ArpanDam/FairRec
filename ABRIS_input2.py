@@ -17,12 +17,22 @@ import dictionary_from_bfs
 import tag_finder
 import third_block
 import best_r_tags_shortest_path_new_defintion_copy_checking_last_gain
+import sys
 '''edge_probability_career=pickle.load(open("edge_probability_career","rb")) # portion of the graph
 
 file_name_sign="influence_tags_sign_"+str(10)
 sign_dictionary=pickle.load(open("../Example of career group tags and its dictionary of positive negative tags_0.85/"+file_name_sign,"rb"))  # portion of the graph
 graph=generate_original_graph_for_input.generate_final_graph(sign_dictionary,edge_probability_career)
 graph_copy=graph'''
+if(len(sys.argv) == 3):
+    
+    r=int(sys.argv[2]) # Number of influence tags
+    k=int(sys.argv[1]) # Number of Influencial users
+
+if(len(sys.argv) != 3):
+    
+    k=5 # Number of influencial users
+    r=3# Number of Influence tags
 graph=pickle.load(open("graph","rb"))
 #shprtest_path_tag=pickle.load(open("shprtest_path_tag","rb"))
 # remove the negative edges
@@ -220,7 +230,7 @@ def remove_rrs_set(all_rrs_set,dict_topic_rrs,seed):
             dict_topic_rrs[key]=RRS_set_topic
     return all_rrs_set,dict_topic_rrs
 
-k_range=[5]
+k_range=[k]
 for k in k_range:
     while(len(seed)<k):    
         lowest_attribute=find_lowest_attribute(seed,all_rrs_set)
@@ -232,7 +242,7 @@ for k in k_range:
         # now find the best tags   
         list_of_intermediate_graph,list_of_dictionary_of_shortest_path=dictionary_from_bfs.generating_many_list_of_shortest_path_part1(reverse_graph,Number_of_sample_graphs,node_with_lowest_attribute,seed)
 
-        set_key1=best_r_tags_shortest_path_new_defintion_copy_checking_last_gain.output_dictionary_of_tag_batch_with_gain(seed,Number_of_sample_graphs,list_of_intermediate_graph,list_of_dictionary_of_shortest_path,3,node_with_lowest_attribute)
+        set_key1=best_r_tags_shortest_path_new_defintion_copy_checking_last_gain.output_dictionary_of_tag_batch_with_gain(seed,Number_of_sample_graphs,list_of_intermediate_graph,list_of_dictionary_of_shortest_path,r,node_with_lowest_attribute)
 
         best_tag=set_key1
         print(" Best tags are ", best_tag)
@@ -304,14 +314,14 @@ for k in k_range:
             diff=diff+abs(dict_percentage_member[key]-dict_percentage_influenced_member[key])
         return diff
     print("Total percentage influenced is ",number_of_influenced)
-    print("influenced member percentage =",dict_percentage_influenced_member)
-    print("All member percentage =",dict_percentage_member)
+    #print("influenced member percentage =",dict_percentage_influenced_member)
+    #print("All member percentage =",dict_percentage_member)
     
     print("L1 norm is ",find_difference_between_percentage(dict_percentage_influenced_member,dict_percentage_member))
     #break
 #[80674, 2775988, 2794624, 9078175, 10205905, 11900080, 37955902]
 
-print("Top 5 seeds are",seed)
-print(" Best 3 tags are ", best_tag)
-
+print("Best influential users are",seed)
+print("Best influence tags are", best_tag)
+# Begining of 3rd block
 
